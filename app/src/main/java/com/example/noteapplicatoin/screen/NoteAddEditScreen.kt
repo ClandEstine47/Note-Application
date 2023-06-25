@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.noteapplicatoin.components.InputTextField
 import com.example.noteapplicatoin.model.Note
 
@@ -41,16 +42,31 @@ import com.example.noteapplicatoin.model.Note
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteAddEditScreen(
+    navController: NavController,
     notes: List<Note>,
+    noteId: String? = null,
+    onRemoveNote: (Note) -> Unit,
     onAddNote: (Note) -> Unit
 ) {
 
     val titleState = remember {
-        mutableStateOf("")
+        if (noteId == null) {
+            mutableStateOf("")
+        } else {
+            mutableStateOf(notes.filter {
+                it.id == noteId
+            }[0].title)
+        }
     }
 
     val contentState = remember {
-        mutableStateOf("")
+        if (noteId == null) {
+            mutableStateOf("")
+        } else {
+            mutableStateOf(notes.filter {
+                it.id == noteId
+            }[0].description)
+        }
     }
 
     val titleHintState = remember {
@@ -105,9 +121,8 @@ fun NoteAddEditScreen(
                 .align(alignment = Alignment.BottomEnd)
                 .clip(RoundedCornerShape(50.dp)),
             onClick = {
-                Toast.makeText(contextForToast, "Save", Toast.LENGTH_SHORT)
-                    .show()
-
+//                Toast.makeText(contextForToast, "Save", Toast.LENGTH_SHORT)
+//                    .show()
                 if (titleState.value.isNotEmpty() && contentState.value.isNotEmpty()) {
                     onAddNote(
                         Note(
@@ -115,6 +130,14 @@ fun NoteAddEditScreen(
                             description = contentState.value
                         )
                     )
+                    if (noteId != null) {
+                        onRemoveNote(
+                            notes.filter {
+                                it.id == noteId
+                            }[0]
+                        )
+                    }
+                    navController.popBackStack()
                 }
             }
         ) {

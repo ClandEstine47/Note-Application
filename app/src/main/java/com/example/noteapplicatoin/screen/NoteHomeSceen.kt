@@ -33,12 +33,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.noteapplicatoin.components.NoteCard
 import com.example.noteapplicatoin.model.Note
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteHomeScreen(
+    navController: NavController,
     notes: List<Note>,
     onRemoveNote: (Note) -> Unit
 ) {
@@ -76,8 +78,17 @@ fun NoteHomeScreen(
                 items(notes) { note ->
                     NoteCard(
                         title = note.title,
-                        description = note.description
-                    )
+                        description = note.description,
+                        onDeleteClick = {
+                            if (it) {
+                                onRemoveNote(note)
+                            }
+                        }
+                    ) {
+                        navController.navigate(
+                            route = NoteScreens.NoteAddEditScreen.name + "/${note.id}"
+                        )
+                    }
                 }
             }
         }
@@ -93,8 +104,11 @@ fun NoteHomeScreen(
                 .align(alignment = Alignment.BottomEnd)
                 .clip(RoundedCornerShape(50.dp)),
             onClick = {
-                Toast.makeText(contextForToast, "Add Note", Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(contextForToast, "Add Note", Toast.LENGTH_SHORT)
+//                    .show()
+                navController.navigate(
+                    route = NoteScreens.NoteAddEditScreen.name
+                )
             }
         ) {
             Icon(

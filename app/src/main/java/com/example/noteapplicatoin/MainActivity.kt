@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.noteapplicatoin.data.NotesDataSource
+import com.example.noteapplicatoin.navigation.NoteScreenNavigation
 import com.example.noteapplicatoin.screen.NoteAddEditScreen
 import com.example.noteapplicatoin.screen.NoteHomeScreen
 import com.example.noteapplicatoin.ui.theme.NoteApplicatoinTheme
@@ -20,14 +21,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NoteApplicatoinTheme {
-                NoteHomeScreen(
-                    notes = NotesDataSource().loadNotes(),
-                    onRemoveNote = {}
-                )
+//                NoteHomeScreen(
+//                    notes = NotesDataSource().loadNotes(),
+//                    onRemoveNote = {}
+//                )
 //                NoteAddEditScreen(
 //                    notes = NotesDataSource().loadNotes(),
 //                    onAddNote = {}
 //                )
+                NoteScreenNavigation()
             }
         }
     }
