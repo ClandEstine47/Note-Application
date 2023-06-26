@@ -20,7 +20,7 @@ data class Note  constructor(
     @ColumnInfo(name = "note_description")
     val description: String,
 
-    @ColumnInfo(name = "note_entry_date")
-//    val entryDate: LocalDateTime = LocalDateTime.now()
-    val entryDate: Date = Date.from(Instant.now())
+//    @ColumnInfo(name = "note_entry_date")
+////    val entryDate: LocalDateTime = LocalDateTime.now()
+//    val entryDate: Date = Date.from(Instant.now())
 )

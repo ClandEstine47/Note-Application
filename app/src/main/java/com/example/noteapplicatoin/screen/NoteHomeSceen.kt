@@ -22,12 +22,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.noteapplicatoin.components.NoteCard
 
@@ -35,7 +37,10 @@ import com.example.noteapplicatoin.components.NoteCard
 @Composable
 fun NoteHomeScreen(
     navController: NavController,
-    noteViewModel: NoteHomeScreenViewModel) {
+    noteViewModel: NoteHomeScreenViewModel = hiltViewModel()
+) {
+
+    val notesList = noteViewModel.noteList.collectAsState().value
 
     Surface(
         modifier = Modifier
@@ -60,7 +65,7 @@ fun NoteHomeScreen(
                 colors = TopAppBarDefaults.largeTopAppBarColors(MaterialTheme.colorScheme.background)
             )
 
-            Text(text = "${noteViewModel.getallNotes().size} notes")
+            Text(text = "${notesList.size} notes")
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -68,7 +73,7 @@ fun NoteHomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(noteViewModel.getallNotes()) { note ->
+                items(notesList) { note ->
                     NoteCard(
                         title = note.title,
                         description = note.description,

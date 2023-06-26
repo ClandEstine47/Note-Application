@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.noteapplicatoin.components.InputTextField
 import com.example.noteapplicatoin.model.Note
@@ -30,15 +32,17 @@ import com.example.noteapplicatoin.model.Note
 @Composable
 fun NoteAddEditScreen(
     navController: NavController,
-    noteViewModel: NoteHomeScreenViewModel,
     noteId: String? = null,
+    noteViewModel: NoteHomeScreenViewModel = hiltViewModel()
 ) {
+
+    val notesList = noteViewModel.noteList.collectAsState().value
 
     val titleState = remember {
         if (noteId == null) {
             mutableStateOf("")
         } else {
-            mutableStateOf(noteViewModel.getallNotes().filter {
+            mutableStateOf(notesList.filter {
                 it.id == noteId
             }[0].title)
         }
@@ -48,7 +52,7 @@ fun NoteAddEditScreen(
         if (noteId == null) {
             mutableStateOf("")
         } else {
-            mutableStateOf(noteViewModel.getallNotes().filter {
+            mutableStateOf(notesList.filter {
                 it.id == noteId
             }[0].description)
         }
@@ -108,7 +112,7 @@ fun NoteAddEditScreen(
                     )
                     if (noteId != null) {
                         noteViewModel.removeNote(
-                            noteViewModel.getallNotes().filter {
+                            notesList.filter {
                                 it.id == noteId
                             }[0]
                         )

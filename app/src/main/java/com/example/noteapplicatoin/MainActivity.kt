@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NoteApplicatoinTheme {
-                val noteViewModel: NoteHomeScreenViewModel = viewModel()
+                val noteViewModel = viewModel<NoteHomeScreenViewModel>()
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
@@ -38,8 +38,8 @@ class MainActivity : ComponentActivity() {
                     composable(NoteScreens.NoteAddEditScreen.name) {
                         NoteAddEditScreen(
                             navController,
-                            noteViewModel,
-                            null
+                            null,
+                            noteViewModel
                         )
                     }
 
@@ -47,12 +47,13 @@ class MainActivity : ComponentActivity() {
                         NoteScreens.NoteAddEditScreen.name + "/{id}",
                         arguments = listOf(navArgument("id") {
                             type = NavType.StringType
+                            defaultValue = ""
                         })
                     ) { backStackEntry ->
                         NoteAddEditScreen(
                             navController = navController,
-                            noteViewModel,
-                            backStackEntry.arguments?.getString("id")
+                            backStackEntry.arguments?.getString("id"),
+                            noteViewModel
                         )
                     }
                 }
