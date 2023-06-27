@@ -21,17 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.noteapplicatoin.ui.theme.MontserratFamily
 
 @Composable
 fun InputTextField(
     text: String,
     hint: String,
     fontSize: Int,
+    fontWeight: FontWeight,
     isHintVisibile: Boolean,
     textStyle: TextStyle = TextStyle(),
     singleLine: Boolean,
@@ -49,20 +53,20 @@ fun InputTextField(
                 onValChange(it)
             },
             singleLine = singleLine,
-            textStyle = TextStyle(
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = fontSize.sp
-            ),
+            textStyle = textStyle,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.background),
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground)
         )
         if (isHintVisibile) {
             Text(
                 text = hint,
                 style = textStyle,
-                color = Color.DarkGray,
-                fontSize = fontSize.sp
+                color = Color.Gray,
+                fontSize = fontSize.sp,
+                fontFamily = MontserratFamily,
+                fontWeight = fontWeight
             )
         }
     }

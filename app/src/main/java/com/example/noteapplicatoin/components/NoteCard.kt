@@ -24,13 +24,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.noteapplicatoin.ui.theme.MontserratFamily
+import com.example.noteapplicatoin.util.formatDate
+import java.sql.Time
 
 @Composable
 fun NoteCard(
     title: String = "",
     description: String = "",
+    date: Long,
     onDeleteClick: (Boolean) -> Unit,
     onCardClick: () -> Unit
 ) {
@@ -42,9 +49,9 @@ fun NoteCard(
             }
             .size(150.dp)
             .clip(RoundedCornerShape(10.dp))
-            .padding(5.dp),
-        elevation = CardDefaults.cardElevation(5.dp),
-        border = BorderStroke(width = 1.dp, Color.Gray),
+            .padding(bottom = 10.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
+        border = BorderStroke(width = 0.dp, MaterialTheme.colorScheme.background),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.background)
     ) {
         Surface(
@@ -55,17 +62,33 @@ fun NoteCard(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(5.dp)
+                    .padding(10.dp)
             ) {
                 Text(
+                    text = formatDate(date),
+                    fontFamily = MontserratFamily,
+                    fontWeight = FontWeight.Normal,
+                    fontStyle = FontStyle.Italic
+                    )
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                )
+                Text(
                     text = "$title",
-                    fontSize = 30.sp
+                    fontSize = 30.sp,
+                    fontFamily = MontserratFamily,
+                    fontWeight = FontWeight.SemiBold
                 )
                 Spacer(
                     modifier = Modifier
                         .height(10.dp)
                 )
-                Text(text = "$description")
+                Text(
+                    text = "$description",
+                    fontFamily = MontserratFamily,
+                    fontWeight = FontWeight.Normal
+                )
             }
             Box(
                 modifier = Modifier
@@ -80,7 +103,7 @@ fun NoteCard(
 //                            Toast
 //                                .makeText(contextForToast, "Delete Note", Toast.LENGTH_SHORT)
 //                                .show()
-                                   onDeleteClick(true)
+                            onDeleteClick(true)
                         },
                     imageVector = Icons.Filled.Delete,
                     contentDescription = "Delete Note",

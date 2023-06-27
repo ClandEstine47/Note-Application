@@ -27,11 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.noteapplicatoin.components.NoteCard
+import com.example.noteapplicatoin.ui.theme.MontserratFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,22 +52,32 @@ fun NoteHomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(start = 10.dp, end = 10.dp)
         ) {
             TopAppBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp),
+                    .height(90.dp),
                 title = {
                     Text(
+                        modifier = Modifier,
                         text = "All notes",
                         style = MaterialTheme.typography.titleLarge,
-                        fontSize = 60.sp
+                        fontSize = 50.sp,
+                        fontFamily = MontserratFamily,
+                        fontWeight = FontWeight.Normal
                     )
                 },
                 colors = TopAppBarDefaults.largeTopAppBarColors(MaterialTheme.colorScheme.background)
             )
 
-            Text(text = "${notesList.size} notes")
+            Text(
+                modifier = Modifier,
+                text = if (notesList.size > 1) "${notesList.size} notes" else "${notesList.size} note",
+//                fontSize = 60.sp,
+                fontFamily = MontserratFamily,
+                fontWeight = FontWeight.Bold
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -77,6 +89,7 @@ fun NoteHomeScreen(
                     NoteCard(
                         title = note.title,
                         description = note.description,
+                        date = note.entryDate.time,
                         onDeleteClick = {
                             if (it) {
                                 noteViewModel.removeNote(note)
