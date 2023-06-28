@@ -26,7 +26,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -106,7 +105,6 @@ fun NoteHomeScreen(
     }
 
     //  Note Add Button
-    val contextForToast = LocalContext.current.applicationContext
     Box(modifier = Modifier.fillMaxSize()) {
         FloatingActionButton(
             modifier = Modifier
@@ -115,8 +113,6 @@ fun NoteHomeScreen(
                 .align(alignment = Alignment.BottomEnd)
                 .clip(RoundedCornerShape(50.dp)),
             onClick = {
-//                Toast.makeText(contextForToast, "Add Note", Toast.LENGTH_SHORT)
-//                    .show()
                 navController.navigate(
                     route = NoteScreens.NoteAddEditScreen.name
                 )
